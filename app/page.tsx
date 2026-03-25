@@ -57,12 +57,25 @@ export default function Home() {
     reader.readAsDataURL(file)
   }, [])
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     setDragging(false)
     const file = e.dataTransfer.files[0]
     if (file) processFile(file)
-  }, [processFile])
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragging(false)
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -99,27 +112,25 @@ export default function Home() {
 
         {/* Idle: Upload Area */}
         {state === 'idle' && (
-          <div
-            className={`border-2 border-dashed rounded-2xl p-16 text-center cursor-pointer transition-colors ${
+          <label
+            className={`block border-2 border-dashed rounded-2xl p-16 text-center cursor-pointer transition-colors ${
               dragging ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-white hover:border-blue-400 hover:bg-blue-50/50'
             }`}
-            onClick={() => inputRef.current?.click()}
-            onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
-            onDragLeave={() => setDragging(false)}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <div className="text-5xl mb-4">🖼️</div>
-            <p className="text-lg font-medium text-slate-700">拖拽图片到此处</p>
-            <p className="text-slate-400 mt-1">或点击选择文件</p>
-            <p className="text-xs text-slate-400 mt-3">支持 JPG · PNG · WEBP · 最大 10MB</p>
             <input
-              ref={inputRef}
               type="file"
               accept="image/jpeg,image/png,image/webp"
               className="hidden"
               onChange={handleFileChange}
             />
-          </div>
+            <div className="text-5xl mb-4">🖼️</div>
+            <p className="text-lg font-medium text-slate-700">拖拽图片到此处</p>
+            <p className="text-slate-400 mt-1">或点击选择文件</p>
+            <p className="text-xs text-slate-400 mt-3">支持 JPG · PNG · WEBP · 最大 10MB</p>
+          </label>
         )}
 
         {/* Processing */}
