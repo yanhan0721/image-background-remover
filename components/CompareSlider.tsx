@@ -63,7 +63,7 @@ export default function CompareSlider({ originalUrl, resultUrl }: Props) {
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${position}%` }}
       >
-        <img src={originalUrl} alt="original" className="absolute inset-0 w-full h-full object-contain" style={{ width: containerRef.current?.offsetWidth ?? '100%' }} />
+        <img src={originalUrl} alt="original" className="absolute inset-0 w-full h-full object-contain" style={{ width: '100%' }} />
       </div>
 
       {/* Divider */}
