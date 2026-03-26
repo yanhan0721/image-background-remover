@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        image_base64: base64Data,
+        image_file_b64: base64Data,
         size: 'auto',
         format: 'png',
       }),
